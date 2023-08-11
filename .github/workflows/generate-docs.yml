@@ -25,4 +25,4 @@ jobs:
           # 在这里运行生成文档的命令，例如：
           # npm run generate-docs
           # python generate_docs.py
-          npm run test
+          npm run dev
