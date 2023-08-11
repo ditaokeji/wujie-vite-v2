@@ -1,0 +1,21 @@
+name: Generate Documentation
+
+on:
+  push:
+    branches:
+      - master  # 替换为您希望触发工作流的分支名称
+
+jobs:
+  generate_docs:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Generate Documentation
+        run: |
+          # 在这里运行生成文档的命令，例如：
+          # npm run generate-docs
+          # python generate_docs.py
+          npm run test
