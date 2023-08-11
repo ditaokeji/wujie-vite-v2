@@ -16,7 +16,7 @@ jobs:
       - name: install
         run: |
           npm install pnpm -g
-          pnpm install
+          pnpm install --no-frozen-lockfile
           # npm install lerna -g
           # lerna bootstrap --ignore main-react --ignore main-vue --ignore react16 --ignore react17 --ignore vite --ignore vue2 --ignore vue3 --ignore angular12 --ignore wujie-doc
 
