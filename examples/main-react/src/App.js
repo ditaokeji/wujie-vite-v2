@@ -11,17 +11,21 @@ import {
 import WujieReact from "wujie-react";
 import React, { useState } from "react";
 import Home from "./pages/Home";
+import Vite from "./pages/Vite";
 import All from "./pages/All.js";
 import Button from "antd/es/button";
 import { UnorderedListOutlined, CaretUpOutlined } from "@ant-design/icons";
 
 const { bus } = WujieReact;
 
-const subMap = {};
+const subMap = {
+  vite: ["home", "dialog", "location", "contact"],
+};
 
 function Nav() {
   const location = useLocation();
   const navigation = useNavigate();
+  const [viteFlag, setViteFlag] = useState(location.pathname.includes("vite-sub"));
 
   const degrade = window.Proxy;
 
@@ -37,6 +41,9 @@ function Nav() {
 
   const handleFlag = (name) => {
     switch (name) {
+      case "vite":
+        setViteFlag(!viteFlag);
+        break;
       default:
         break;
     }
@@ -56,6 +63,17 @@ function Nav() {
       >
         all
       </NavLink>
+      {degrade && <NavLink to="/vite" className={({ isActive }) => (isActive ? "active" : "inactive")}>
+        vite
+        <CaretUpOutlined className={viteFlag ? "main-icon active" : "main-icon"} onClick={() => handleFlag("vite")} />
+      </NavLink>}
+      <div className="sub-menu" style={{display: viteFlag ? "block" : "none"}}>
+        {subMap.vite.map((item) => (
+          <NavLink to={`/vite-sub/${item}`} key={item} className={({ isActive }) => (isActive ? "active" : "inactive")}>
+            {item}
+          </NavLink>
+        ))}
+      </div>
       <Button
         type="primary"
         className="menu-icon"
@@ -86,6 +104,8 @@ class App extends React.PureComponent {
                 path="/home"
                 element={<Home changeActive={this.changeActive} />}
               />
+              <Route exact path="/vite" element={<Vite />} />
+              <Route exact path="/vite-sub/:path" element={<Vite />} />
               <Route exact path="/all" element={<All />} />
               <Route path="*" element={<Navigate to="/home" replace />} />
             </Routes>

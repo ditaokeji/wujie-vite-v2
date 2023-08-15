@@ -23,8 +23,23 @@ const degrade =
   window.localStorage.getItem("degrade") === "true" ||
   !window.Proxy ||
   !window.CustomElementRegistry;
+const attrs = isProduction ? { src: hostMap("//localhost:7700/") } : {};
 // 创建应用，主要是设置配置，preloadApp、startApp的配置基于这个配置做覆盖
+setupApp({
+  name: "vite",
+  url: hostMap("//localhost:7500/"),
+  attrs,
+  exec: true,
+  fetch: credentialsFetch,
+  degrade,
+  ...lifecycles,
+});
 if (window.localStorage.getItem("preload") !== "false") {
+  if (window.Proxy) {
+    preloadApp({
+      name: "vite",
+    });
+  }
 }
 
 ReactDOM.render(<App />, document.getElementById("root"));
